@@ -1,0 +1,27 @@
+name: Aider JS external validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'solutions/**'
+      - 'scripts/**'
+      - '.github/workflows/aider-js.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Show task manifest
+        run: cat tasks.txt
+      - name: Run repository-owned tests
+        run: bash scripts/run-aider-js.sh
